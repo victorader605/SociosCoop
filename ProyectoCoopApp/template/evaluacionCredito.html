@@ -1,0 +1,187 @@
+{% extends "header.html" %}{% load static %} <!-- aqui adentro va el HTML -->
+{% block title %}Evaluacion{% endblock %} 
+{% block content %}   <!-- aqui adentro va el HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola Mundo</title>
+    <link rel="stylesheet" href="{% static 'css/my.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">  
+</head>
+<body>
+    <main class="container">
+        <div class="d-flex align-items-center justify-content-center p-3 my-3 bg-purple rounded shadow-sm">
+            <!-- Imagen a la izquierda -->
+            <img class="me-3" src="{% static 'img/iconos/evacredito.png' %}" alt="" style="width: 50px; height: auto;">
+            
+            <!-- Contenedor de texto centrado -->
+            <div class="lh-1 text-center">
+                <h1 class="h6 mb-0 text-black lh-1">Evaluacion de crédito</h1>
+                <small class="text-black">Since 2011</small>
+            </div>
+        </div>
+    
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+          <div class="d-flex text-body-secondary pt-3">
+            <img src="{% static 'img/iconos/persona.png' %}"  class="flex-shrink-0 me-2 rounded" width="32" height="32" alt="Descripción de la imagen">
+            <p class="pb-3 mb-0 small lh-sm border-bottom">
+                <strong class="d-block text-gray-dark">Evaluacion Pendientes</strong>
+                En este segmento debe ingresar informacion de contacto.
+            </p>
+          </div>
+          
+          <div class="table-responsive">  
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Rut</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Plazo</th>
+                <th scope="col">Cuota</th>
+                <th scope="col">Fecha ingreso</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+                {% for e in evaluaciones %}
+                    <tr>
+                        <th scope="row">{{e.id_eva}}</th>
+                        <td>{{e.rut_eva}}</td>
+                        <td>{{e.nombre_eva}}</td>
+                        <td>{{e.monto_eva}}</td>
+                        <td>{{e.plazo_eva}}</td>
+                        <td>{{e.valorCuota_eva}}</td>
+                        <td>{{ e.fecha_simulacion_eva|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{e.estado_eva}}</td>
+                        
+                        {% if perms.ProyectoCoopApp.EvaluacionCredito %}
+                        <td> 
+                        </div> <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#mdl-update-{{e.id_eva}}">Evaluacion</button></td>
+                        <div id="mdl-update-{{e.id_eva}}" class="modal" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Evaluacion Credito</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form  class="row g-3 needs-validation" method="POST" action="/evaluacionCredito/formulario" novalidate>{% csrf_token %}
+                                  <div class="container" style="max-width:700px !important">
+                                    <input type="hidden" id="id" name="id" value="{{e.id_eva}}">
+                                    <div class="form-group row">
+                                      <div class="col-sm-6">
+                                        <label for="txt-run" class="form-label">Rut</label>
+                                        <input id="rut" name="rut" value="{{e.rut_eva}}" readonly class="form-control" placeholder="RUN" />
+                                      </div>
+                                      <div class="col-sm-6">
+                                        <label for="txt-nombres" class="form-label">Nombre</label>
+                                        <input id="nombre" name="nombre" value="{{e.nombre_eva}}" class="form-control" placeholder="NOMBRE" />        
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <div class="col-sm-6">
+                                        <label for="txt-telefono" class="form-label">Telefono</label>
+                                        <input id="telefono" name="telefono" value="{{e.telefono_eva}}" class="form-control" placeholder="NOMBRES" />        
+                                      </div>
+                                      <div class="col-sm-6">
+                                        <label for="txt-correo" class="form-label">Correo</label>
+                                        <input id="correo" name="correo"  value="{{e.correo_eva}}" class="form-control" placeholder="APELLIDO PATERNO" />        
+                                      </div>   
+                                    </div>
+                                    <div class="form-group row">
+                                      <div class="col-sm-6">
+                                        <label for="txt-monto" class="form-label">Monto Solicitado</label>
+                                        <input id="monto" name="monto" value="{{e.monto_eva}}" class="form-control" placeholder="Monto" />        
+                                      </div>       
+                                      <div class="col-sm-6">
+                                        <label for="txt-plazo" class="form-label">Plazo</label>
+                                        <input id="plazo" name="plazo" value="{{e.plazo_eva}}" class="form-control" placeholder="Telefono" />        
+                                      </div> 
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                          <label for="txt-cuota" class="form-label">Valor Cuota</label>
+                                          <input id="cuota" name="cuota" value="{{e.valorCuota_eva}}" class="form-control" placeholder="Monto" />        
+                                        </div>       
+                                        <div class="col-sm-6">
+                                          <label for="txt-tasa" class="form-label">Tasa</label>
+                                          <input id="tasa" name="tasa" value="{{e.tasa_eva}}" class="form-control" placeholder="Telefono" />        
+                                        </div> 
+                                      </div>   
+                                      <div class="form-group row">
+                                        <div class="col-sm-6">
+                                          <label for="fecha_p_vencimiento" class="form-label">Fecha Primer Vencimiento</label>
+                                          <input type="datetime" id="fecha_p_vencimiento" name="fecha_p_vencimiento" value="{{e.fecha_primer_venc}}" class="form-control" placeholder="Monto" />        
+                                        </div>       
+                                        <div class="col-sm-6">
+                                          <label for="txt-fecha_simulacion" class="form-label">Fecha de ingreso</label>
+                                          <input type="datetime" id="fecha_simulacion" name="fecha_simulacion" value="{{e.fecha_simulacion_eva}}" class="form-control" placeholder="Telefono" />        
+                                        </div> 
+                                      </div>    
+                                      <div class="form-group row">
+                                        <div class="col-sm-6">
+                                          <label for="txt-estado" class="form-label">Estado Evaluacion</label>
+                                          <input id="estado" name="estado" value="{{e.estado_eva}}" class="form-control" placeholder="Monto" />        
+                                        </div>
+                                        <div class="col-md-6"> 
+                                            <label for="plazo" class="form-label">Resolucion</label> 
+                                            <select class="form-select" id="resultado" name="resultado" required>
+                                                <option value="">Seleccione resolucion...</option>
+                                                <!-- Opciones de plazo de 12 a 48 meses -->
+                                                <option value="Aprobado">Aprobado</option>
+                                                <option value="Rechazado">Rechazado</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Por favor seleccione una resolucion.
+                                            </div>
+                                        </div>       
+
+                                      </div>   
+                                    <div class="form-group row">
+                                      <div class="col-sm-12">
+                                        <label for="txt-observacion" class="form-label">Observaciones</label>
+                                        <textarea id="txt-observacion" name="observacion" class="form-control">{{c.asunto}}</textarea>
+                                      </div> 
+                                    </div>
+                                    <div class="form-group row">        
+                                        <button type="submit" style="margin-top: 10px;" 
+                                                      class=" col-sm-3 btn btn-primary"
+                                                      >ENVIAR</button>
+                                    </div>         
+                                  </div>
+                                </form>
+                                
+                              </div>   
+                            </div>
+                          </div>
+                          {% endif %}  
+                    </tr>
+                {% endfor %}      
+            </tbody>
+          </table>
+          </div>
+        </div>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <div class="d-flex text-body-secondary pt-3">
+              <img src="{% static 'img/iconos/persona.png' %}"  class="flex-shrink-0 me-2 rounded" width="32" height="32" alt="Descripción de la imagen">
+              <p class="pb-3 mb-0 small lh-sm border-bottom">
+                  <strong class="d-block text-gray-dark">Evaluaciones Respondidas</strong>
+                  En este segmento debe ingresar informacion de contacto.
+              </p>
+            </div>
+        </div>
+</main>
+
+</body>
+<script src="{% static 'js/socioscoop/validaformularios.js' %}"></script>
+</html>
+{% endblock %}

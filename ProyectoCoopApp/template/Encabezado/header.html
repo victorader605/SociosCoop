@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+   <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{%  endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+            <!-- Favicons -->
+        <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
+        <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+        <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
+        <meta name="theme-color" content="#712cf9">
+   </head>
+
+   <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-danger text-bg-dark" style="background-color: red;">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <img src=" {% static 'img/header/mano.png' %}" alt="" width="50" height="40" class="d-inline-block align-text-top " style="image-rendering: auto;">
+            CoopApp
+          </a>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/index">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/registro">Registro</a>
+              </li>
+
+
+
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="/simulaCredito">Simulacion credito</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/evaluacionCredito">Evaluacion credito</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/resultados">Resultados</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/panel">Panel</a>
+              </li>   
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+   
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+              {% endif %}  
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-scroller bg-body shadow-sm">
+        <nav class="nav" aria-label="Secondary navigation">
+            <div class="w-100 d-flex justify-content-center mt-2">
+                <img src="{% static 'img/index/socioscoop2.png' %}" class="rounded" alt="..." style="width: 200px; height: auto;">
+            </div>
+        </nav>
+      </div>
+
+
+    
+    
+      {% block content %}{%  endblock %}
+   </body>
+   
+   <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script> 
+
+</html>

@@ -1,0 +1,28 @@
+
+/*para centrar el formulario */
+main {
+	max-width: 800px;
+	width: 90%;
+	margin: auto;
+	padding: 40px;
+}
+
+main-encabezado {
+	max-width: 800px;
+	width: 90%;
+	margin: auto;
+	padding: 40px;
+}
+
+
+.circular-image {
+    width: 75px;
+    height: 75px;
+    border: 2px solid #ddd;
+    padding: 5px;
+    background-color: #f8f9fa;
+}
+/* color corporativo Rojo*/
+.rojo-corp {
+    color: #de2519 !important;
+}

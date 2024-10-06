@@ -1,0 +1,88 @@
+{% extends "header.html" %}{% load static %} <!-- aqui adentro va el HTML -->
+{% block title %}Resultado{% endblock %} 
+{% block content %}   <!-- aqui adentro va el HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola Mundo</title>
+    <link rel="stylesheet" href="{% static 'css/my.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">  
+</head>
+<body>
+    <main class="container">
+        <div class="d-flex align-items-center justify-content-center p-3 my-3 bg-purple rounded shadow-sm">
+            <!-- Imagen a la izquierda -->
+            <img class="me-3" src="{% static 'img/iconos/informe.png' %}" alt="" style="width: 50px; height: auto;">
+            
+            <!-- Contenedor de texto centrado -->
+            <div class="lh-1 text-center">
+                <h1 class="h6 mb-0 text-black lh-1">Informe de evaluaciones de Credito</h1>
+                <small class="text-black">Since 2011</small>
+            </div>
+        </div>
+    
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+          <div class="d-flex text-body-secondary pt-3">
+            <img src="{% static 'img/iconos/persona.png' %}"  class="flex-shrink-0 me-2 rounded" width="32" height="32" alt="Descripción de la imagen">
+            <p class="pb-3 mb-0 small lh-sm border-bottom">
+                <strong class="d-block text-gray-dark">Informe de evaluaciones de credito</strong>
+                En este informe se obtienen los resultados de las evaluaciones de creditos.
+            </p>
+            <a href="{% url 'exportar_evaluaciones_excel' %}" class="ms-auto d-flex align-items-center">
+                <img src="{% static 'img/iconos/excel.png' %}" alt="Descargar Excel" style="width: 32px; height: auto;" title="Descargar Excel">
+            </a>
+
+           
+          </div>
+          
+          <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Rut</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Plazo</th>
+                <th scope="col">Cuota</th>
+                <th scope="col">Fecha simulacion</th>
+                <th scope="col">Fecha evaluacion</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Resultado</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for e in evaluaciones %}
+                    <tr>
+                        <th scope="row">{{e.id_eva}}</th>
+                        <td>{{e.rut_eva}}</td>
+                        <td>{{e.nombre_eva}}</td>
+                        <td>{{e.monto_eva}}</td>
+                        <td>{{e.plazo_eva}}</td>
+                        <td>{{e.valorCuota_eva}}</td>
+                        <td>{{ e.fecha_simulacion_eva|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ e.fecha_resolucion_eva|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{e.estado_eva}}</td>
+                        <td 
+                        {% if e.resultado_eva == 'Aprobado' %}
+                            class="bg-success text-white"
+                        {% elif e.resultado_eva == 'Rechazado' %}
+                            class="bg-danger text-white"
+                        {% endif %}
+                         >
+                        {{ e.resultado_eva }}
+                        
+                    </tr>
+                {% endfor %}      
+            </tbody>
+          </table>
+        </div>
+        </div>
+</main>
+
+</body>
+<script src="{% static 'js/socioscoop/validaformularios.js' %}"></script>
+</html>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends "header.html" %}{% load static %} <!-- aqui adentro va el HTML -->
+{% block title %}Panel de informacion{% endblock %} 
+{% block content %}   <!-- aqui adentro va el HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola Mundo</title>
+    <link rel="stylesheet" href="{% static 'css/my.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">  
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <main class="container">
+        <div class="d-flex align-items-center justify-content-center p-3 my-3 bg-purple rounded shadow-sm">
+            <!-- Imagen a la izquierda -->
+            <img class="me-3" src="{% static 'img/iconos/panel.png' %}" alt="" style="width: 50px; height: auto;">
+            
+            <!-- Contenedor de texto centrado -->
+            <div class="lh-1 text-center">
+                <h1 class="h6 mb-0 text-black lh-1">Informe de evaluaciones de Credito</h1>
+                <small class="text-black">Since 2011</small>
+            </div>
+        </div>
+        
+        <div class="container text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                    <!-- Aquí se renderiza el gráfico -->
+                    <div id="grafico-plot" style="width: 100%; height: 400px;"></div> <!-- Ancho completo y altura fija -->
+                    <script>
+                        // Obtener el gráfico desde la vista Django
+                        var graph_b = JSON.parse('{{ graph_json_barra|escapejs }}');
+        
+                        // Configurar el gráfico para que ocupe todo el espacio disponible
+                        graph_b.layout.autosize = true;
+        
+                        // Asegurarse de que el gráfico se ajuste al tamaño del contenedor
+                        function resizeGraph() {
+                            var plotDiv = document.getElementById('grafico-plot');
+                            graph_b.layout.width = plotDiv.offsetWidth; // Ancho del contenedor
+                            graph_b.layout.height = plotDiv.offsetHeight; // Alto del contenedor
+                            // Renderizar el gráfico
+                            Plotly.react(plotDiv, graph_b.data, graph_b.layout);
+                        }
+        
+                        // Llamar a la función de tamaño al cargar la página
+                        window.onload = resizeGraph;
+                        // Llamar a la función de tamaño al redimensionar la ventana
+                        window.onresize = resizeGraph;        
+                        // Renderizar inicialmente el gráfico
+                        resizeGraph();
+                    </script>
+              </div>
+             
+              <div class="col-sm-4">
+                  
+                    <div id="grafico-circular" style="width: 100%; height: 100%;"></div>
+                    <script>
+                        var graphCircular = JSON.parse('{{ graph_json_circular|escapejs }}');
+                        Plotly.newPlot('grafico-circular', graphCircular.data, graphCircular.layout);
+                    </script>
+                </div>
+               </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">col-sm</div>
+              <div class="col-sm">col-sm</div>
+              <div class="col-sm">col-sm</div>
+            </div>
+          </div>
+
+        <div class="row align-items-md-stretch">
+            <div class="col-md-12"> <!-- Cambiar a col-md-12 para usar todo el ancho -->
+                <div id="grafico-container" class="h-100 p-5 bg-body-tertiary border rounded-3">
+                    <!-- Aquí se renderiza el gráfico -->
+                    <div id="grafico-plot" style="width: 100%; height: 400px;"></div> <!-- Ancho completo y altura fija -->
+                    <script>
+                        // Obtener el gráfico desde la vista Django
+                        var graph = JSON.parse('{{ graph_json|escapejs }}');
+        
+                        // Configurar el gráfico para que ocupe todo el espacio disponible
+                        graph.layout.autosize = true;
+        
+                        // Asegurarse de que el gráfico se ajuste al tamaño del contenedor
+                        function resizeGraph() {
+                            var plotDiv = document.getElementById('grafico-plot');
+                            graph.layout.width = plotDiv.offsetWidth; // Ancho del contenedor
+                            graph.layout.height = plotDiv.offsetHeight; // Alto del contenedor
+                            // Renderizar el gráfico
+                            Plotly.react(plotDiv, graph.data, graph.layout);
+                        }
+        
+                        // Llamar a la función de tamaño al cargar la página
+                        window.onload = resizeGraph;
+                        // Llamar a la función de tamaño al redimensionar la ventana
+                        window.onresize = resizeGraph;        
+                        // Renderizar inicialmente el gráfico
+                        resizeGraph();
+                    </script>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        
+        <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+                <div id="grafico" class="h-100 p-5 bg-body-tertiary border rounded-3">
+                    <!-- Aquí se renderiza el gráfico -->
+                    <div id="grafico-plot" style="height: 50%; width: 100%;"></div> <!-- Ajustar estilo para ocupar todo el espacio -->
+                    <script>
+                        // Obtener el gráfico desde la vista Django
+                        var graph = JSON.parse('{{ graph_json|escapejs }}');
+            
+                        // Configurar el gráfico para que ocupe todo el espacio disponible
+                        graph.layout.autosize = true;
+            
+                        // Renderizar el gráfico en el div con id 'grafico-plot'
+                        Plotly.react('grafico-plot', graph.data, graph.layout);
+                    </script>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                <h2>Add borders</h2>
+                <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
+                <button class="btn btn-outline-secondary" type="button">Example button</button>
+              </div>
+            </div>
+          </div>
+    
+    
+    <div id="grafico"></div> <!-- Aquí se renderiza el gráfico -->
+
+    <script>
+    // Obtener el gráfico desde la vista Django
+    var graph = JSON.parse('{{ graph_json|escapejs }}');
+    
+    // Renderizar el gráfico en el div con id 'grafico'
+    Plotly.react('grafico', graph.data, graph.layout);
+    </script>
+    </main>
+
+</body>
+{% endblock %}
